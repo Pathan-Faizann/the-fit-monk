@@ -90,8 +90,8 @@ export default function ReviewFunnel() {
       />
 
       {/* Header / Logo Section */}
-      <div className="mt-6 sm:mt-10 flex flex-col items-center text-center">
-        <div className="relative w-32 h-32 sm:w-40 sm:h-40 rounded-full shadow-lg border-4 border-[#ffb900] bg-[#111827] overflow-hidden flex items-center justify-center p-2">
+      <div className="lg:mt-6 w-full sm:mt-10 flex flex-row justify-between items-center! text-center">
+        <div className="relative w-14 h-14 sm:w-40 sm:h-40 rounded-full shadow-lg border-4 border-[#ffb900] bg-[#111827] overflow-hidden flex items-center justify-center p-2">
           <Image
             src="/fitmonk_logo.png"
             alt="The Fit Monk"
@@ -100,17 +100,17 @@ export default function ReviewFunnel() {
             priority
           />
         </div>
-        <h1 className="mt-5 text-3xl sm:text-4xl font-extrabold text-[#111827] tracking-wider uppercase">
+        <h1 className=" text-[25px] sm:text-4xl font-extrabold text-[#111827] tracking-wider uppercase">
           The Fit Monk
         </h1>
-        <p className="text-gray-500 mt-1 font-medium sm:text-lg">
-          We value your experience
-        </p>
       </div>
+      {/* <p className="text-gray-500 mt-3 font-medium sm:text-lg">
+        We value your experience
+      </p> */}
 
       {/* Main Review Card (Responsive Width: max-w-md on mobile, max-w-lg on tablet) */}
-      <div className="bg-white w-full max-w-md sm:max-w-lg mt-8 rounded-2xl shadow-xl p-6 sm:p-8 border-t-[6px] border-[#ffb900]">
-        <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800 mb-6">
+      <div className="bg-white w-full max-w-md sm:max-w-lg mt-3 lg:mt-8 rounded-2xl shadow-xl p-6 sm:p-8 border-t-[6px] border-[#ffb900]">
+        <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800 mb-2 lg:mb-6">
           Make a Review
         </h2>
 
