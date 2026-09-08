@@ -15,7 +15,6 @@ export default function ReviewFunnel() {
   const googleMobileLink =
     "https://www.google.com/search?q=the+fit+monk+-+andheri+mumbai+reviews&oq=&gs_lcrp=EgZjaHJvbWUqDAgEECMYJxjqAhiMBDIGCAAQRRg5MgcIARBFGLABMgwIAhAjGCcY6gIYjAQyDAgDECMYJxjqAhiMBDIMCAQQIxgnGOoCGIwEMgwIBRAjGCcY6gIYjAQyDAgGECMYJxjqAhiMBDIVCAcQLhgnGK8BGMcBGLoCGOoCGIwEMgwICBAjGCcY6gIYjAQyDAgJECMYJxjqAhiMBDIMCAoQIxgnGOoCGIwEMg8ICxAjGCcY6gIYjAQY8AUyDAgMECMYJxjqAhiMBDIPCA0QIxgnGOoCGIwEGPAFMgwIDhAjGCcY6gIYjATSAQYtMWowajmoAg6wAgHxBdP8RBDlS57m&client=ms-android-vivo-terr1-rso2&sourceid=chrome-mobile&source=chrome.ob&ie=UTF-8#ebo=2";
 
-  // Apna Client / Owner ka WhatsApp Number yahan daale
   const whatsappNumber = "919876543210";
 
   const handleSubmit = () => {
