@@ -2,101 +2,132 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { reviews4Star, reviews5Star } from "./reviews";
 
 export default function ReviewFunnel() {
   const [rating, setRating] = useState(0);
   const [selectedReview, setSelectedReview] = useState("");
   const [suggestion, setSuggestion] = useState("");
 
-  // Demo Links & Numbers
-  const googleReviewLinkMobile = "https://maps.google.com/?cid=YOUR_CID_HERE"; // Yahan mobile map link dalna
-  const whatsappNumber = "919876543210"; // Owner ka number
+  // Aapki di hui exact links
+  const googleDesktopLink =
+    "https://www.google.com/search?q=the+fit+monk+-+andheri+mumbai+reviews&oq=the+fit+&gs_lcrp=EgZjaHJvbWUqCAgAEEUYJxg7MggIABBFGCcYOzIICAEQRRgnGDsyBggCEEUYOzIGCAMQRRg5MhAIBBAuGK8BGMcBGIAEGI4FMgYIBRBFGDwyBggGEEUYPDIGCAcQRRg80gEIMjA1N2owajmoAgCwAgE&sourceid=chrome&source=chrome.ob&ie=UTF-8#lrd=0x3be7b796095b7ec7:0xe8e8eaa091186d4d,3,,,,";
+  const googleMobileLink =
+    "https://www.google.com/search?sca_esv=a9c0e99a3096cf33&biw=1536&bih=730&sxsrf=APpeQnupvqPxL1hwPH-7t_9gXHKoYo8uuw:1788850129785&q=shanthi+orthopaedic+and+dental+clinic+mumbai+reviews&uds=AJ5uw19GuBVBLMbQsdSycHwVNNfHs1sgjFLk_qZnH0xMjRcwUHrQbsaJngOOzpQ54psAY71lcH94x0tkT_iNme0MrG_zFPDVVzW5sTpvdLTqy8d16dOD5NofeF8EsbyFI8dC15FGEKNcTOCkbfT8rUC52p4kcO0dW-AXc32sTuhBy1-XUswzET-P43fXdaRSIGHFfanNV6RjSZFkm2iJ33dMjujAsCDyekigRyOlNnqebd-lOKQnKj0-LgOGv3i9IjmfaUL_BPW7TNRWax2AndsgHwIZMmt3CvpHuDq__tQdgZHr5_f2-LFX2-Oqg9mUWfHumh69mjO5IKFi2qDdhDN4cK93iFwkrEX7iwJUA2V8WPfo3af6xrWxYhTsNtXTtk6YCRZeFiD_SkhEvG_3LGkDRFtORwbsMu5NmmfBgQPdXuC_Y_PfRKK3fylnkKyKq4KZxqfKpgob4OC6HYDLZ1Q4msCje0vx8Bx7sAyj5WTaR3_UhA435chTx0fAFp0bh-jXgV96VKtP1xBugf_mAr8GSR6vbVAhfVx5PNLcZ2iYke9pr33U5xecJsQcDwhbNdEFFmVBw35M&si=APenkKm7iecQ4G6P-TsbSMFKIQtv3EFIqRAFw-i8uEbk55Z-_2poS2qiz9ScWtfGpEnokV1Xw_FRYO4nlfjN73-R9t_hJdTIlrmrhvfAhwY8_CnY8gAXhDnUnz0tGv0jeWHbp3KIkBe19TpVcB1GxGo7IywCgxQryukY-7tq-qX4wtQw_0w2JC4%3D&sa=X&ved=2ahUKEwit8KqEst6WAxXbTGwGHWT_IYQQk8gLegQIGhAB&ictx=1&stq=1&cs=1&lei=0a-fau3DL9uZseMP5P6HoQg#ebo=4";
 
-  // Pre-written reviews
-  const reviews5Star = [
-    "Amazing healthy food and great ambiance! The Fit Monk is my new favorite.",
-    "Best cafe in town! The staff is very polite and the vibe is super peaceful.",
-    "Highly recommended! The quality of ingredients they use is top-notch.",
-  ];
-
-  const reviews4Star = [
-    "Great food and good service. Really enjoyed the healthy options.",
-    "Nice place to hang out. The menu is unique and tastes good.",
-    "Good experience overall. Will definitely visit again!",
-  ];
+  // Apna Client / Owner ka WhatsApp Number yahan daale
+  const whatsappNumber = "919876543210";
 
   const handleSubmit = () => {
-    if (rating === 0) {
-      alert("Please select a star rating first!");
-      return;
-    }
+    if (rating === 0) return;
 
+    // RULE 1: For 1 & 2 Stars (No Google, only WhatsApp, Suggestion mandatory)
     if (rating <= 2) {
-      // 1 or 2 Stars: Send internal feedback via WhatsApp, NO Google!
-      if (!suggestion) {
-        alert("Please let us know how we can improve in the suggestion box.");
+      if (!suggestion.trim()) {
+        alert("Please write your suggestion so we can improve.");
         return;
       }
       const message = encodeURIComponent(
         `Feedback for The Fit Monk:\nRating: ${rating} Stars\nSuggestion: ${suggestion}`,
       );
       window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
-    } else {
-      // 3, 4, or 5 Stars: Copy review text & redirect to Google
-      let finalReview = selectedReview;
-      if (suggestion) {
-        finalReview += ` (Suggestion: ${suggestion})`;
-      }
-
-      if (!finalReview && rating >= 4) {
-        alert("Please select a review option.");
-        return;
-      }
-
-      navigator.clipboard.writeText(finalReview).then(() => {
-        alert("Review copied! Please PASTE it in the Google review box.");
-        window.open(googleReviewLinkMobile, "_blank");
-      });
+      return;
     }
+
+    // RULE 2: For 3 Stars (Google link, Suggestion mandatory)
+    if (rating === 3 && !suggestion.trim()) {
+      alert("Please provide a suggestion for improvement in the box below.");
+      return;
+    }
+
+    // Checking if review is selected for 3, 4, and 5 stars
+    if (!selectedReview) {
+      alert("Please select a review option to copy.");
+      return;
+    }
+
+    // Prepare text to copy
+    let finalReview = selectedReview;
+    if (suggestion.trim()) {
+      finalReview += ` (Suggestion: ${suggestion})`;
+    }
+
+    // RULE 3: Copy to clipboard and open appropriate Google Link
+    navigator.clipboard.writeText(finalReview).then(() => {
+      alert("Review copied! Please PASTE it in the Google review box.");
+
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+      if (isMobile) {
+        window.open(googleMobileLink, "_blank");
+      } else {
+        window.open(googleDesktopLink, "_blank");
+      }
+    });
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center p-6 font-sans">
-      {/* Header Section */}
-      <div className="mt-8 flex flex-col items-center text-center">
-        {/* Replace src with your actual uploaded image path in the public folder */}
-        <img
-          src="/fitmonk_logo.png"
-          alt="The Fit Monk Logo"
-          width={150}
-          height={150}
-          className="rounded-full shadow-lg border-4 border-yellow-500"
-        />
-        <h1 className="mt-4 text-3xl font-extrabold text-gray-900 tracking-wide uppercase">
+    <div className="min-h-screen bg-[#f8f9fa] flex flex-col items-center p-4 sm:p-6 font-sans">
+      {/* Custom Scrollbar Styling (Premium Look) */}
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: #f1f1f1; 
+          border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #d1d5db; 
+          border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #ffb900; 
+        }
+      `,
+        }}
+      />
+
+      {/* Header / Logo Section */}
+      <div className="mt-6 sm:mt-10 flex flex-col items-center text-center">
+        <div className="relative w-32 h-32 sm:w-40 sm:h-40 rounded-full shadow-lg border-4 border-[#ffb900] bg-[#111827] overflow-hidden flex items-center justify-center p-2">
+          <Image
+            src="/fitmonk_logo.png"
+            alt="The Fit Monk"
+            fill
+            style={{ objectFit: "contain" }}
+            priority
+          />
+        </div>
+        <h1 className="mt-5 text-3xl sm:text-4xl font-extrabold text-[#111827] tracking-wider uppercase">
           The Fit Monk
         </h1>
-        <p className="text-gray-500 mt-1">We value your experience</p>
+        <p className="text-gray-500 mt-1 font-medium sm:text-lg">
+          We value your experience
+        </p>
       </div>
 
-      {/* Main Card */}
-      <div className="bg-white w-full max-w-md mt-8 rounded-2xl shadow-xl p-6 border-t-4 border-yellow-500">
-        <h2 className="text-xl font-bold text-center text-gray-800 mb-6">
+      {/* Main Review Card (Responsive Width: max-w-md on mobile, max-w-lg on tablet) */}
+      <div className="bg-white w-full max-w-md sm:max-w-lg mt-8 rounded-2xl shadow-xl p-6 sm:p-8 border-t-[6px] border-[#ffb900]">
+        <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800 mb-6">
           Make a Review
         </h2>
 
-        {/* Stars */}
-        <div className="flex justify-center gap-3 mb-6">
+        {/* Stars Section */}
+        <div className="flex justify-center gap-2 sm:gap-4 mb-6">
           {[1, 2, 3, 4, 5].map((star) => (
             <button
               key={star}
               onClick={() => {
                 setRating(star);
-                setSelectedReview(""); // Reset selection on star change
+                setSelectedReview("");
               }}
               className="focus:outline-none transition-transform active:scale-90"
             >
               <svg
-                className={`w-12 h-12 ${rating >= star ? "text-yellow-500" : "text-gray-300"}`}
+                className={`w-12 h-12 sm:w-14 sm:h-14 ${rating >= star ? "text-[#ffb900]" : "text-gray-200"}`}
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >
@@ -106,29 +137,30 @@ export default function ReviewFunnel() {
           ))}
         </div>
 
-        {/* Options based on Rating */}
+        {/* Dynamic Content based on Rating */}
         {rating > 0 && rating <= 2 && (
-          <div className="mb-6 p-4 bg-red-50 text-red-800 rounded-lg text-sm text-center">
-            We are sorry to hear that! Please let us know what went wrong so we
-            can fix it immediately.
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-800 rounded-xl text-sm sm:text-base text-center font-medium">
+            We are sorry to hear that! Please let us know what went wrong below.
           </div>
         )}
 
+        {/* Scrollable Review Selection Options (Visible for 3, 4, and 5 stars) */}
         {rating >= 3 && (
           <div className="mb-6">
-            <p className="text-sm font-semibold text-gray-700 mb-3">
+            <p className="text-sm sm:text-base font-bold text-gray-700 mb-3">
               Select a review to copy:
             </p>
-            <div className="flex flex-col gap-2">
+            {/* THIS IS THE SCROLLABLE DIV */}
+            <div className="flex flex-col gap-2.5 max-h-[240px] sm:max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
               {(rating === 5 ? reviews5Star : reviews4Star).map(
                 (text, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedReview(text)}
-                    className={`text-left p-3 rounded-lg text-sm border transition-colors ${
+                    className={`text-left p-3.5 sm:p-4 rounded-xl text-sm sm:text-[15px] border transition-all ${
                       selectedReview === text
-                        ? "bg-green-50 border-green-600 text-green-900 font-medium"
-                        : "bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100"
+                        ? "bg-[#eefcf2] border-[#166534] text-[#166534] font-semibold shadow-sm"
+                        : "bg-white border-gray-200 text-gray-600 hover:bg-gray-50"
                     }`}
                   >
                     {text}
@@ -142,14 +174,14 @@ export default function ReviewFunnel() {
         {/* Suggestion Text Area */}
         {rating > 0 && (
           <div className="mb-6">
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              {rating === 3
-                ? "What could we improve? (Required for 3 stars)"
-                : "Any suggestions for improvement? (Optional)"}
+            <label className="block text-sm sm:text-base font-bold text-gray-700 mb-2">
+              {rating <= 3
+                ? "What could we improve? (Required)"
+                : "Suggestions for cafe improvement (Optional)"}
             </label>
             <textarea
-              rows={3}
-              className="w-full border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 outline-none"
+              rows={2}
+              className="w-full placeholder-gray-500 border-2 border-gray-200 rounded-xl p-3 text-sm sm:text-base focus:ring-0 focus:border-[#ffb900] outline-none transition-colors custom-scrollbar"
               placeholder="Type your suggestions here..."
               value={suggestion}
               onChange={(e) => setSuggestion(e.target.value)}
@@ -157,21 +189,22 @@ export default function ReviewFunnel() {
           </div>
         )}
 
-        {/* Submit Button */}
+        {/* Dynamic Submit Button - Always Visible Without Page Scroll */}
         <button
           onClick={handleSubmit}
-          className={`w-full py-3 rounded-xl font-bold text-lg shadow-md transition-all ${
+          disabled={rating === 0}
+          className={`w-full py-3.5 sm:py-4 rounded-xl font-bold text-[15px] sm:text-lg shadow-md transition-all uppercase tracking-wide ${
             rating === 0
-              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              ? "bg-gray-200 text-gray-400 cursor-not-allowed"
               : rating <= 2
-                ? "bg-gray-900 text-white hover:bg-gray-800"
-                : "bg-yellow-500 text-gray-900 hover:bg-yellow-400"
+                ? "bg-[#111827] text-white hover:bg-gray-800"
+                : "bg-[#ffb900] text-[#111827] hover:bg-[#e5a700]"
           }`}
         >
           {rating === 0
             ? "Select Stars to Continue"
             : rating <= 2
-              ? "Submit Feedback directly"
+              ? "Submit Suggestion"
               : "Go to Review Page"}
         </button>
       </div>
