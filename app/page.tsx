@@ -90,8 +90,8 @@ export default function ReviewFunnel() {
       />
 
       {/* Header / Logo Section */}
-      <div className="lg:mt-6 w-full sm:mt-10 flex flex-row justify-between items-center! text-center">
-        <div className="relative w-14 h-14 sm:w-40 sm:h-40 rounded-full shadow-lg border-4 border-[#ffb900] bg-[#111827] overflow-hidden flex items-center justify-center p-2">
+      <div className="lg:mt-6 w-full sm:mt-10 flex flex-row items-center! text-center">
+        <div className="relative w-17 h-15 sm:w-40 sm:h-40 rounded-full shadow-lg border-4 border-[#ffb900] bg-[#111827] overflow-hidden flex items-center justify-center p-2">
           <Image
             src="/fitmonk_logo.png"
             alt="The Fit Monk"
@@ -100,7 +100,7 @@ export default function ReviewFunnel() {
             priority
           />
         </div>
-        <h1 className=" text-[25px] sm:text-4xl font-extrabold text-[#111827] tracking-wider uppercase">
+        <h1 className=" text-[25px] w-full text-center sm:text-4xl font-extrabold text-[#111827] tracking-wider uppercase">
           The Fit Monk
         </h1>
       </div>
@@ -150,7 +150,7 @@ export default function ReviewFunnel() {
               Select a review to copy:
             </p>
             {/* THIS IS THE SCROLLABLE DIV */}
-            <div className="flex flex-col gap-2.5 max-h-[240px] sm:max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+            <div className="flex flex-col gap-2.5 max-h-[280px] sm:max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
               {(rating === 5 ? reviews5Star : reviews4Star).map(
                 (text, index) => (
                   <button
