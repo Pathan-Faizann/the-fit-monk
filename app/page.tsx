@@ -606,7 +606,7 @@ export default function ReviewFunnel() {
               Select a review to copy:
             </p>
             {/* SCROLLABLE DIV */}
-            <div className="flex flex-col gap-2.5 max-h-[280px] sm:max-h-[460px] overflow-y-auto px-2 custom-scrollbar">
+            <div className="flex flex-col gap-2.5 max-h-[280px] sm:max-h-[460px] overflow-y-auto pt-2 px-2 custom-scrollbar">
               {(rating === 5 ? reviews5Star : reviews4Star).map(
                 (text, index) => (
                   <button
